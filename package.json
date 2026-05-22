@@ -1,0 +1,58 @@
+{
+  "name": "vue3-smart-pdf-preview",
+  "version": "0.1.0",
+  "private": false,
+  "description": "A dependency-light Vue 3 PDF preview component with virtual rendering, mobile layout, watermark, fullscreen, and configurable toolbar.",
+  "type": "module",
+  "main": "./dist/vue-pdf-preview.umd.cjs",
+  "module": "./dist/vue-pdf-preview.js",
+  "types": "./types/index.d.ts",
+  "style": "./dist/style.css",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/vue-pdf-preview.js",
+      "require": "./dist/vue-pdf-preview.umd.cjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./PdfPreview.vue": "./src/components/PdfPreview.vue"
+  },
+  "files": [
+    "dist",
+    "src/components/PdfPreview.vue",
+    "types",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css",
+    "**/*.css"
+  ],
+  "keywords": [
+    "vue",
+    "vue3",
+    "pdf",
+    "pdf-preview",
+    "pdf-viewer",
+    "virtual-scroll",
+    "mobile"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.0",
+    "pdfjs-dist": "^4.10.38",
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0",
+    "vue": "^3.4.0",
+    "vue-tsc": "^2.0.0"
+  },
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "demo:pdf": "node scripts/create-demo-pdf.mjs",
+    "typecheck": "vue-tsc --noEmit",
+    "build": "vite build",
+    "prepublishOnly": "npm run typecheck && npm run build"
+  }
+}
