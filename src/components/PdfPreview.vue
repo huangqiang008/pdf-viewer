@@ -293,7 +293,7 @@
           </object>
           <p class="vpv__native-note">{{ t.nativeFallback }}</p>
         </div>
-        <div v-else class="vpv__pages" :style="{ height: `${totalHeight}px` }">
+        <div v-else class="vpv__pages" :style="pagesStyle">
           <article
             v-for="page in visiblePages"
             :key="page"
@@ -510,6 +510,11 @@ const pageWidth = computed(() => Math.max(240, Math.min(viewportWidth.value - (i
 const pageHeight = computed(() => pageWidth.value * firstPageRatio.value)
 const itemHeight = computed(() => pageHeight.value + props.pageGap)
 const totalHeight = computed(() => Math.max(0, pageCount.value * itemHeight.value))
+const pageAreaWidth = computed(() => pageWidth.value + 24)
+const pagesStyle = computed(() => ({
+  height: `${totalHeight.value}px`,
+  minWidth: `${pageAreaWidth.value}px`
+}))
 const visibleStart = computed(() => clamp(Math.floor(scrollTop.value / itemHeight.value) + 1 - props.buffer, 1, pageCount.value || 1))
 const visibleEnd = computed(() => clamp(Math.ceil((scrollTop.value + viewportHeight.value) / itemHeight.value) + props.buffer, 1, pageCount.value || 1))
 const visiblePages = computed(() => {
@@ -626,6 +631,8 @@ async function loadPdf() {
   thumbCanvases.clear()
 
   try {
+    if (!props.src) return
+
     const renderer = props.pdfjs || getGlobalPdfJs()
     if (!renderer) {
       nativeFallback.value = props.useNativeFallback && typeof props.src === 'string'
@@ -885,8 +892,8 @@ function blockContextMenu(event) {
 }
 
 function normalizeSource(source) {
-  if (source instanceof URL) return source.href
-  if (typeof source === 'string') return source
+  if (source instanceof URL) return { url: source.href }
+  if (typeof source === 'string') return { url: source }
   if (source instanceof Uint8Array) return { data: source }
   if (source instanceof ArrayBuffer) return { data: new Uint8Array(source) }
   return source
@@ -1229,7 +1236,6 @@ function svg(paths) {
 
 .vpv__canvas {
   display: block;
-  max-width: 100%;
 }
 
 .vpv__watermark {

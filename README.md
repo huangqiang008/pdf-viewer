@@ -47,9 +47,17 @@ import PdfPreview from 'vue3-smart-pdf-preview'
 import 'vue3-smart-pdf-preview/style.css'
 // 宿主项目可以选择安装/加载 pdfjs-dist，组件本身不直接依赖它。
 import * as pdfjsLib from 'pdfjs-dist'
-import workerUrl from 'pdfjs-dist/build/pdf.worker.mjs?url'
 
+// ⚠️ 必须配置 worker，否则 PDF 无法渲染！
+// Vite 项目：
+import workerUrl from 'pdfjs-dist/build/pdf.worker.mjs?url'
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl
+
+// Webpack / Vue CLI 项目（如果 ?url 不可用，请改用以下方式）：
+// import workerUrl from 'pdfjs-dist/build/pdf.worker.entry'
+// pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl
+// 或使用 CDN：
+// pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`
 </script>
 
 <style scoped>
@@ -58,6 +66,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl
 }
 </style>
 ```
+
+> **重要**：`pdfjs` prop 和 `workerSrc` 缺一不可。如果只传了 `src` 而没有注入 pdfjs 渲染器，组件会尝试浏览器原生预览兜底（不支持缩略图、虚拟滚动等功能）。如果 worker 未配置，pdfjs-dist 会报错导致 "PDF 加载失败"。
 
 ## 本地 Demo
 

@@ -81,7 +81,8 @@
 import { onBeforeUnmount, reactive, ref } from 'vue'
 import * as pdfjsLib from 'pdfjs-dist'
 import workerUrl from 'pdfjs-dist/build/pdf.worker.mjs?url'
-import PdfPreview from '../src/components/PdfPreview.vue'
+import PdfPreview from 'vue3-smart-pdf-preview'
+import 'vue3-smart-pdf-preview/style.css'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl
 

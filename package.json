@@ -1,6 +1,6 @@
 {
   "name": "vue3-smart-pdf-preview",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": false,
   "description": "A dependency-light Vue 3 PDF preview component with virtual rendering, mobile layout, watermark, fullscreen, and configurable toolbar.",
   "type": "module",
